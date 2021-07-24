@@ -7,7 +7,9 @@ data class TimerItem(
     val time: Long,
     val currentTime: Long,
     val isStarted: Boolean,
-)
+) {
+    fun isEnd() = currentTime <= 0
+}
 
 fun Timer.toTimerItem() = TimerItem(
     id = id,

@@ -31,7 +31,7 @@ class ForegroundService : Service() {
 
     private val builder by lazy {
         NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("Pomodoro")
+            .setContentTitle("Timer")
             .setGroup("Pomodoro")
             .setGroupSummary(false)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -76,9 +76,9 @@ class ForegroundService : Service() {
                 timerRepository.timersFlow().collect { list ->
                     val timer = list.firstOrNull { it.isStarted }
                     if (timer != null) {
-                        continueTimer(timer.currentTime)
-                    }else{
-                        commandStop()
+                        notification(timer.currentTime.displayTime())
+                    } else {
+                        notification("timer is finish")
                     }
                 }
             }
@@ -87,10 +87,10 @@ class ForegroundService : Service() {
         }
     }
 
-    private fun continueTimer(startTime: Long) {
+    private fun notification(message: String) {
         notificationManager?.notify(
             NOTIFICATION_ID,
-            getNotification(startTime.displayTime())
+            getNotification(message)
         )
     }
 
@@ -120,7 +120,7 @@ class ForegroundService : Service() {
 
     private fun startForegroundAndShowNotification() {
         createChannel()
-        val notification = getNotification("content")
+        val notification = getNotification("")
         startForeground(NOTIFICATION_ID, notification)
     }
 

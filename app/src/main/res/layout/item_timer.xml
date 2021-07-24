@@ -46,7 +46,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/button_play"
+            android:id="@+id/button_action"
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -55,17 +55,6 @@
             app:layout_constraintEnd_toStartOf="@id/button_delete"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
-
-        <ImageView
-            android:id="@+id/button_stop"
-            style="@style/Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/button_delete"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_stop_24" />
 
         <ImageView
             android:id="@+id/button_delete"

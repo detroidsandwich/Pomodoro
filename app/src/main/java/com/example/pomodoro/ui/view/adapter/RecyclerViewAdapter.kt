@@ -47,15 +47,8 @@ class RecyclerViewTimerAdapter(
             }
 
             override fun getChangePayload(oldItem: TimerItem, newItem: TimerItem): Any? {
-                return if (oldItem.id == newItem.id) {
-                    when {
-                        newItem.currentTime <= 0 && oldItem.currentTime != newItem.currentTime ->
-                            Payload.END_TIMER
-                        newItem.isStarted && !oldItem.isStarted -> Payload.START_TIMER
-                        newItem.isStarted && oldItem.isStarted -> Payload.UPDATE_TIMER
-                        !newItem.isStarted && oldItem.isStarted -> Payload.STOP_TIMER
-                        else -> null
-                    }
+                return if (oldItem.id == newItem.id && newItem.isStarted && oldItem.isStarted) {
+                    Payload.UPDATE_TIMER
                 } else null
             }
         }

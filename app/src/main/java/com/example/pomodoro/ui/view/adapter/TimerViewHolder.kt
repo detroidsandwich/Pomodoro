@@ -3,7 +3,6 @@ package com.example.pomodoro.ui.view.adapter
 import android.graphics.drawable.AnimationDrawable
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pomodoro.R
 import com.example.pomodoro.databinding.ItemTimerBinding
@@ -22,12 +21,14 @@ class TimerViewHolder(private val binding: ItemTimerBinding) :
         updateTimer(timer)
         endTimer(timer)
 
-        buttonPlay.setOnClickListener {
-            listener.onStart(timer.id)
-        }
+        buttonAction.isEnabled = !timer.isEnd()
 
-        buttonStop.setOnClickListener {
-            listener.onStop(timer.id)
+        buttonAction.setOnClickListener {
+            if (!timer.isStarted) {
+                listener.onStart(timer.id)
+            } else {
+                listener.onStop(timer.id)
+            }
         }
 
         buttonDelete.setOnClickListener {
@@ -36,36 +37,22 @@ class TimerViewHolder(private val binding: ItemTimerBinding) :
     }
 
     private fun switchButton(isStart: Boolean) = with(binding) {
-        buttonPlay.isVisible = !isStart
-        buttonStop.isVisible = isStart
+        val drawable = if (!isStart) {
+            ContextCompat.getDrawable(itemView.context, R.drawable.ic_baseline_play_arrow_24)
+        } else {
+            ContextCompat.getDrawable(itemView.context, R.drawable.ic_baseline_stop_24)
+        }
+        buttonAction.setImageDrawable(drawable)
     }
 
     fun bind(listener: TimerViewHolderListener, timer: TimerItem, payload: Payload) =
         when (payload) {
-            Payload.START_TIMER -> startTimer(timer)
             Payload.UPDATE_TIMER -> updateTimer(timer)
-            Payload.STOP_TIMER -> stopTimer(timer)
-            Payload.END_TIMER -> {
-                stopTimer(timer)
-                endTimer(timer)
-            }
         }
-
-    private fun startTimer(timer: TimerItem) = with(binding) {
-        switchButton(timer.isStarted)
-        animateRec(timer.isStarted)
-        updateTimer(timer)
-    }
 
     private fun updateTimer(timer: TimerItem) = with(binding) {
         textTimer.text = timer.currentTime.displayTime()
         progress.setCurrent(timer.time - timer.currentTime)
-    }
-
-    private fun stopTimer(timer: TimerItem) = with(binding) {
-        switchButton(timer.isStarted)
-        animateRec(timer.isStarted)
-        updateTimer(timer)
     }
 
     private fun animateRec(isStart: Boolean) {
@@ -89,7 +76,7 @@ class TimerViewHolder(private val binding: ItemTimerBinding) :
 }
 
 enum class Payload {
-    START_TIMER, UPDATE_TIMER, STOP_TIMER, END_TIMER
+    UPDATE_TIMER
 }
 
 interface TimerViewHolderListener {
