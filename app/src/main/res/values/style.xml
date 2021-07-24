@@ -1,0 +1,8 @@
+<resources>
+    <style name="Button">
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">6dp</item>
+        <item name="tint">@color/items_color</item>
+    </style>
+
+</resources>
