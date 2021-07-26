@@ -62,7 +62,7 @@ class TimerFragment : Fragment() {
 
             buttonAddTimer.setOnClickListener {
                 val time = editText.text.toString().toLong()
-                viewModel.addTimer(time)
+                viewModel.addTimer(time * 60)
             }
 
             editText.addTextChangedListener {
