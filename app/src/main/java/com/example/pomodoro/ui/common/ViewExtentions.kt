@@ -35,7 +35,7 @@ fun View.addStatusBarInsets() {
 fun View.addNavigationBarInsets() {
     doOnApplyWindowInsets { view, windowInsetsCompat, rect ->
         val insets =
-            windowInsetsCompat.getInsets(WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.statusBars())
+            windowInsetsCompat.getInsets( WindowInsetsCompat.Type.navigationBars() or WindowInsetsCompat.Type.ime())
         view.updatePadding(
             bottom = rect.bottom + insets.bottom
         )

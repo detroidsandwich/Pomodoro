@@ -70,15 +70,13 @@ class ForegroundService : Service() {
         }
         Log.i("TAG", "commandStart()")
         try {
-            moveToStartedState()
-            startForegroundAndShowNotification()
             job = GlobalScope.launch(Dispatchers.Main) {
                 timerRepository.timersFlow().collect { list ->
                     val timer = list.firstOrNull { it.isStarted }
                     if (timer != null) {
+                        moveToStartedState()
+                        startForegroundAndShowNotification()
                         notification(timer.currentTime.displayTime())
-                    } else {
-                        notification("timer is finish")
                     }
                 }
             }

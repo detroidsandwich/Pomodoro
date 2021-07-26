@@ -11,7 +11,7 @@ class TimerCacheDataStore : TimerDataStore {
 
     private val items: MutableList<Timer> = mutableListOf()
 
-    override val timersFlow = MutableSharedFlow<List<Timer>>()
+    override val timersFlow = MutableSharedFlow<List<Timer>>(1)
 
     override val endTimerFlow = MutableSharedFlow<Timer>()
 
