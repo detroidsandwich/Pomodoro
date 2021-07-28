@@ -66,7 +66,12 @@ class TimerFragment : Fragment() {
             }
 
             editText.addTextChangedListener {
-                buttonAddTimer.isEnabled = !it.isNullOrBlank()
+                try {
+                    val number = it.toString().toInt()
+                    buttonAddTimer.isEnabled = number > 0 && number < 60 * 24
+                } catch (e: Exception) {
+                    buttonAddTimer.isEnabled = false
+                }
             }
         }
 
